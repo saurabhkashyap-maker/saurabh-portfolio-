@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saurabh Kumar Jha - AI & Python Developer</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            width: 10px;
+            height: 10px;
+            background: #00ff88;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.2s;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-follower {
+            width: 30px;
+            height: 30px;
+            border: 2px solid #00ff88;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.3s;
+            mix-blend-mode: difference;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(10, 10, 10, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00ff88, #00b8ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #00ff88;
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 50%, rgba(0, 255, 136, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .established {
+            font-size: 0.9rem;
+            color: #00ff88;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s forwards;
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s 0.2s forwards;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, #00ff88, #00b8ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .dynamic-text {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            height: 60px;
+            opacity: 0;
+            animation: fadeInUp 0.8s 0.4s forwards;
+        }
+
+        .typed-text {
+            color: #00ff88;
+            font-weight: 600;
+        }
+
+        .cursor-typed {
+            display: inline-block;
+            width: 3px;
+            background-color: #00ff88;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s 0.6s forwards;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00ff88, #00b8ff);
+            color: #0a0a0a;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 255, 136, 0.3);
+        }
+
+        .btn-outline {
+            border: 2px solid #00ff88;
+            color: #ffffff;
+        }
+
+        .btn-outline:hover {
+            background: rgba(0, 255, 136, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* AI Chat Widget */
+        .ai-widget {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+
+        .ai-widget-button {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #00ff88, #00b8ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 255, 136, 0.3);
+            transition: transform 0.3s;
+        }
+
+        .ai-widget-button:hover {
+            transform: scale(1.1);
+        }
+
+        .ai-widget-button i {
+            font-size: 1.5rem;
+            color: #0a0a0a;
+        }
+
+        .ai-chat-box {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 300px;
+            background: rgba(20, 20, 20, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            display: none;
+            overflow: hidden;
+        }
+
+        .ai-chat-box.active {
+            display: block;
+            animation: slideIn 0.3s;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chat-header {
+            padding: 1rem;
+            background: rgba(0, 255, 136, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h3 {
+            color: #00ff88;
+        }
+
+        .close-chat {
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .chat-messages {
+            height: 200px;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+
+        .user-message {
+            background: rgba(0, 255, 136, 0.2);
+            margin-left: auto;
+            color: #ffffff;
+        }
+
+        .bot-message {
+            background: rgba(255, 255, 255, 0.1);
+            margin-right: auto;
+            color: #00ff88;
+        }
+
+        .chat-input {
+            padding: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            color: #ffffff;
+        }
+
+        .chat-input button {
+            padding: 0.5rem 1rem;
+            background: #00ff88;
+            border: none;
+            border-radius: 5px;
+            color: #0a0a0a;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* About Section */
+        .about {
+            padding: 6rem 0;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .section-title span {
+            color: #00ff88;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            color: #cccccc;
+            margin-bottom: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #00ff88;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #cccccc;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 6rem 0;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 15px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1);
+            border-color: #00ff88;
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #00ff88;
+        }
+
+        .service-card p {
+            color: #cccccc;
+            font-size: 0.9rem;
+        }
+
+        .ai-demo-preview {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(0, 255, 136, 0.1);
+            border-radius: 10px;
+            display: none;
+        }
+
+        .service-card:hover .ai-demo-preview {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        /* Skills Section */
+        .skills {
+            padding: 6rem 0;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+
+        .skill-category h3 {
+            color: #00ff88;
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-item {
+            margin-bottom: 1rem;
+        }
+
+        .skill-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .skill-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff88, #00b8ff);
+            width: 0;
+            transition: width 1.5s ease-in-out;
+        }
+
+        /* Projects Section */
+        .projects {
+            padding: 6rem 0;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            border-color: #00ff88;
+        }
+
+        .project-content {
+            padding: 2rem;
+        }
+
+        .project-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #00ff88;
+        }
+
+        .project-content p {
+            color: #cccccc;
+            margin-bottom: 1.5rem;
+        }
+
+        .ai-demo-area {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+        }
+
+        /* Jarvis Mic Demo */
+        .mic-demo {
+            text-align: center;
+        }
+
+        .mic-button {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #00ff88, #00b8ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .mic-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+        }
+
+        .mic-button i {
+            font-size: 1.5rem;
+            color: #0a0a0a;
+        }
+
+        .mic-button.listening {
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 20px rgba(0, 255, 136, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 255, 136, 0);
+            }
+        }
+
+        .mic-response {
+            margin-top: 1rem;
+            padding: 0.5rem;
+            background: rgba(0, 255, 136, 0.1);
+            border-radius: 5px;
+            min-height: 40px;
+        }
+
+        /* Chatbot Demo */
+        .chatbot-demo {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .demo-chat-messages {
+            height: 150px;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+
+        .demo-chat-input {
+            display: flex;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .demo-chat-input input {
+            flex: 1;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 5px;
+            color: #ffffff;
+        }
+
+        .demo-chat-input button {
+            padding: 0.5rem 1rem;
+            background: #00ff88;
+            border: none;
+            border-radius: 5px;
+            margin-left: 0.5rem;
+            cursor: pointer;
+            color: #0a0a0a;
+            font-weight: 600;
+        }
+
+        /* Code Editor Demo */
+        .code-editor-demo {
+            background: #1e1e1e;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .editor-header {
+            background: #2d2d2d;
+            padding: 0.5rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .editor-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .editor-dot.red { background: #ff5f56; }
+        .editor-dot.yellow { background: #ffbd2e; }
+        .editor-dot.green { background: #27c93f; }
+
+        .editor-content {
+            padding: 1rem;
+        }
+
+        .editor-content textarea {
+            width: 100%;
+            height: 100px;
+            background: #2d2d2d;
+            border: none;
+            color: #ffffff;
+            padding: 0.5rem;
+            font-family: monospace;
+            resize: none;
+        }
+
+        .fix-code-btn {
+            margin-top: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #00ff88;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #0a0a0a;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        .fixed-code {
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background: #2d2d2d;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: #00ff88;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 6rem 0;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 255, 136, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00ff88;
+        }
+
+        .contact-text {
+            color: #cccccc;
+        }
+
+        .contact-text a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .contact-text a:hover {
+            color: #00ff88;
+        }
+
+        .contact-form {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            color: #ffffff;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        .subject-suggestion {
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background: rgba(0, 255, 136, 0.1);
+            border-radius: 5px;
+            font-size: 0.9rem;
+            color: #00ff88;
+            display: none;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #00ff88, #00b8ff);
+            border: none;
+            border-radius: 5px;
+            color: #0a0a0a;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #cccccc;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .dynamic-text {
+                font-size: 1.5rem;
+            }
+
+            .about-content,
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .ai-widget {
+                bottom: 1rem;
+                right: 1rem;
+            }
+        }
+    </style>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">SKJ.dev</div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <!-- AI Chat Widget -->
+    <div class="ai-widget">
+        <div class="ai-widget-button" id="aiWidgetButton">
+            <i class="fas fa-robot"></i>
+        </div>
+        <div class="ai-chat-box" id="aiChatBox">
+            <div class="chat-header">
+                <h3>Ask Saurabh AI</h3>
+                <span class="close-chat" id="closeChat">×</span>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot-message">Hi! I'm Saurabh's AI assistant. Ask me anything about his skills or projects!</div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chatInput" placeholder="Type your message...">
+                <button id="sendMessage">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <div class="established">ESTABLISHED 2024 • SELF-TAUGHT DEVELOPER</div>
+                <h1>I AM <span>SAURABH KUMAR JHA</span></h1>
+                <div class="dynamic-text">
+                    I am a <span class="typed-text"></span><span class="cursor-typed">|</span>
+                </div>
+                <p style="color: #cccccc; font-size: 1.2rem; margin-bottom: 2rem;">Building smart web apps, AI tools, and automation solutions.</p>
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary">View My Work</a>
+                    <a href="#contact" class="btn btn-outline">Contact Me</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <h2 class="section-title">ABOUT <span>ME</span></h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>I am Saurabh Kumar Jha, a passionate self-taught AI and Python developer from Darbhanga, Bihar. I specialize in building smart voice assistants, automation tools, and modern responsive websites. Currently, I am focused on creating AI-powered web applications that solve real-world problems.</p>
+                    <p>As a fresher in the tech industry, I've already completed 6+ projects and mastered 8+ technologies through dedicated self-learning and hands-on practice.</p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="1">0</div>
+                        <div class="stat-label">Years Experience</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="6">0</div>
+                        <div class="stat-label">Projects</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="8">0</div>
+                        <div class="stat-label">Technologies</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="12">0</div>
+                        <div class="stat-label">GitHub Repos</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <h2 class="section-title">ELITE <span>SERVICES</span></h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🎙️</div>
+                    <h3>AI Voice Assistant Development</h3>
+                    <p>Custom voice assistants with speech recognition, NLP, and task automation capabilities.</p>
+                    <div class="ai-demo-preview">
+                        <i class="fas fa-microphone" style="color: #00ff88;"></i> Try voice demo in projects
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🤖</div>
+                    <h3>Python Automation Scripts</h3>
+                    <p>Automate repetitive tasks, data processing, and workflow optimization with Python.</p>
+                    <div class="ai-demo-preview">
+                        <i class="fas fa-gear" style="color: #00ff88;"></i> 10+ automation scripts
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🌐</div>
+                    <h3>Responsive Website Development</h3>
+                    <p>Modern, mobile-first websites with smooth animations and optimal performance.</p>
+                    <div class="ai-demo-preview">
+                        <i class="fas fa-code" style="color: #00ff88;"></i> Live preview available
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">📚</div>
+                    <h3>Tuition Website Setup</h3>
+                    <p>Complete educational platforms with course management and student portals.</p>
+                    <div class="ai-demo-preview">
+                        <i class="fas fa-graduation-cap" style="color: #00ff88;"></i> Try demo below
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills" id="skills">
+        <div class="container">
+            <h2 class="section-title">TECHNICAL <span>ARSENAL</span></h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Frontend</h3>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span>HTML</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="85"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span>CSS</span>
+                            <span>80%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="80"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span>JavaScript</span>
+                            <span>70%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="70"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Backend & AI</h3>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span>Python</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="85"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span>Flask</span>
+                            <span>75%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="75"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span>SQL</span>
+                            <span>65%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="65"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects" id="projects">
+        <div class="container">
+            <h2 class="section-title">LATEST <span>PROJECTS</span></h2>
+            <div class="projects-grid">
+                <!-- Project 1: Jarvis Voice Assistant -->
+                <div class="project-card">
+                    <div class="project-content">
+                        <h3>Jarvis Voice Assistant</h3>
+                        <p>A Python-based AI voice assistant that can open apps, tell weather, play music, and respond to voice commands.</p>
+                        <div class="ai-demo-area">
+                            <div class="mic-demo">
+                                <div class="mic-button" id="micButton">
+                                    <i class="fas fa-microphone"></i>
+                                </div>
+                                <div class="mic-response" id="micResponse">
+                                    Click the mic and say "Hello" or "What can you do?"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2: VidyaSetu Tuition Website -->
+                <div class="project-card">
+                    <div class="project-content">
+                        <h3>VidyaSetu Tuition Website</h3>
+                        <p>A responsive tuition platform with modern UI, popup welcome screen, and course showcase.</p>
+                        <div class="ai-demo-area">
+                            <div class="chatbot-demo">
+                                <div class="demo-chat-messages" id="demoChatMessages">
+                                    <div class="message bot-message">Hi! Ask me about courses or fees.</div>
+                                </div>
+                                <div class="demo-chat-input">
+                                    <input type="text" id="demoChatInput" placeholder="Ask something...">
+                                    <button id="sendDemoMessage">Send</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3: Online Code Editor -->
+                <div class="project-card">
+                    <div class="project-content">
+                        <h3>Online Code Editor</h3>
+                        <p>A browser-based live code editor supporting HTML, CSS, and JavaScript preview.</p>
+                        <div class="ai-demo-area">
+                            <div class="code-editor-demo">
+                                <div class="editor-header">
+                                    <span class="editor-dot red"></span>
+                                    <span class="editor-dot yellow"></span>
+                                    <span class="editor-dot green"></span>
+                                </div>
+                                <div class="editor-content">
+                                    <textarea id="codeInput" placeholder="Write code here...">console.log("Hello");</textarea>
+                                    <button class="fix-code-btn" id="fixCodeBtn">Fix My Code</button>
+                                    <div class="fixed-code" id="fixedCode"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="section-title">GET IN <span>TOUCH</span></h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h3>Email</h3>
+                            <a href="mailto:saurabhjha.dev@gmail.com">saurabhjha.dev@gmail.com</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h3>Location</h3>
+                            <p>Darbhanga, Bihar, India</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fab fa-github"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h3>GitHub</h3>
+                            <a href="#">github.com/saurabhjha</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" id="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="subject" placeholder="Subject" required>
+                            <div class="subject-suggestion" id="subjectSuggestion"></div>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" placeholder="Your Message" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>© 2024 Saurabh Kumar Jha. All rights reserved. | AI & Python Developer</p>
+        </div>
+    </footer>
+
+    <script>
+        // Custom Cursor
+        const cursor = document.querySelector('.cursor');
+        const cursorFollower = document.querySelector('.cursor-follower');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.transform = `translate(${e.clientX - 5}px, ${e.clientY - 5}px)`;
+            cursorFollower.style.transform = `translate(${e.clientX - 15}px, ${e.clientY - 15}px)`;
+        });
+
+        // Typing Animation
+        const typedTextSpan = document.querySelector('.typed-text');
+        const textArray = ['AI Developer', 'Python Developer', 'Web App Builder', 'Automation Expert'];
+        const typingDelay = 100;
+        const erasingDelay = 50;
+        const newTextDelay = 2000;
+        let textArrayIndex = 0;
+        let charIndex = 0;
+
+        function type() {
+            if (charIndex < textArray[textArrayIndex].length) {
+                typedTextSpan.textContent += textArray[textArrayIndex].charAt(charIndex);
+                charIndex++;
+                setTimeout(type, typingDelay);
+            } else {
+                setTimeout(erase, newTextDelay);
+            }
+        }
+
+        function erase() {
+            if (charIndex > 0) {
+                typedTextSpan.textContent = textArray[textArrayIndex].substring(0, charIndex - 1);
+                charIndex--;
+                setTimeout(erase, erasingDelay);
+            } else {
+                textArrayIndex++;
+                if (textArrayIndex >= textArray.length) textArrayIndex = 0;
+                setTimeout(type, typingDelay);
+            }
+        }
+
+        setTimeout(type, newTextDelay);
+
+        // Animated Counters
+        const statNumbers = document.querySelectorAll('.stat-number');
+        const observerOptions = {
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = entry.target;
+                    const targetNumber = parseInt(target.getAttribute('data-target'));
+                    let currentNumber = 0;
+                    const increment = targetNumber / 50;
+                    
+                    const updateCounter = () => {
+                        if (currentNumber < targetNumber) {
+                            currentNumber += increment;
+                            target.textContent = Math.ceil(currentNumber);
+                            requestAnimationFrame(updateCounter);
+                        } else {
+                            target.textContent = targetNumber;
+                        }
+                    };
+                    
+                    updateCounter();
+                    observer.unobserve(target);
+                }
+            });
+        }, observerOptions);
+
+        statNumbers.forEach(number => observer.observe(number));
+
+        // Skill Bars Animation
+        const skillBars = document.querySelectorAll('.skill-progress');
+        const skillObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const bar = entry.target;
+                    const width = bar.getAttribute('data-width');
+                    bar.style.width = width + '%';
+                    skillObserver.unobserve(bar);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        skillBars.forEach(bar => skillObserver.observe(bar));
+
+        // AI Chat Widget
+        const aiWidgetButton = document.getElementById('aiWidgetButton');
+        const aiChatBox = document.getElementById('aiChatBox');
+        const closeChat = document.getElementById('closeChat');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendMessage = document.getElementById('sendMessage');
+
+        aiWidgetButton.addEventListener('click', () => {
+            aiChatBox.classList.toggle('active');
+        });
+
+        closeChat.addEventListener('click', () => {
+            aiChatBox.classList.remove('active');
+        });
+
+        sendMessage.addEventListener('click', sendChatMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendChatMessage();
+        });
+
+        function sendChatMessage() {
+            const message = chatInput.value.trim();
+            if (message === '') return;
+
+            // Add user message
+            const userMessage = document.createElement('div');
+            userMessage.classList.add('message', 'user-message');
+            userMessage.textContent = message;
+            chatMessages.appendChild(userMessage);
+
+            // Simulate AI response
+            setTimeout(() => {
+                const botMessage = document.createElement('div');
+                botMessage.classList.add('message', 'bot-message');
+                
+                // Simple response logic
+                if (message.toLowerCase().includes('python')) {
+                    botMessage.textContent = "Saurabh is excellent at Python! He's built voice assistants and automation scripts with it.";
+                } else if (message.toLowerCase().includes('project')) {
+                    botMessage.textContent = "He has 6+ projects including Jarvis AI, VidyaSetu website, and a code editor!";
+                } else if (message.toLowerCase().includes('contact')) {
+                    botMessage.textContent = "You can reach him at saurabhjha.dev@gmail.com";
+                } else {
+                    botMessage.textContent = "Saurabh is a skilled AI & Python developer. Check out his projects below!";
+                }
+                
+                chatMessages.appendChild(botMessage);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 500);
+
+            chatInput.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Jarvis Mic Demo
+        const micButton = document.getElementById('micButton');
+        const micResponse = document.getElementById('micResponse');
+        let isListening = false;
+
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const recognition = new SpeechRecognition();
+            
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'en-US';
+
+            recognition.onstart = () => {
+                isListening = true;
+                micButton.classList.add('listening');
+                micResponse.textContent = 'Listening...';
+            };
+
+            recognition.onend = () => {
+                isListening = false;
+                micButton.classList.remove('listening');
+                if (micResponse.textContent === 'Listening...') {
+                    micResponse.textContent = 'Click the mic and say something';
+                }
+            };
+
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript.toLowerCase();
+                
+                // Simulate Jarvis responses
+                if (transcript.includes('hello') || transcript.includes('hi')) {
+                    micResponse.textContent = 'Jarvis: Hello! How can I assist you today?';
+                } else if (transcript.includes('weather')) {
+                    micResponse.textContent = 'Jarvis: The weather is sunny with a chance of code!';
+                } else if (transcript.includes('what can you do')) {
+                    micResponse.textContent = 'Jarvis: I can open apps, tell weather, play music, and more!';
+                } else {
+                    micResponse.textContent = `Jarvis: You said: "${transcript}" - Feature in development!`;
+                }
+            };
+
+            micButton.addEventListener('click', () => {
+                if (isListening) {
+                    recognition.stop();
+                } else {
+                    recognition.start();
+                }
+            });
+        } else {
+            micButton.style.opacity = '0.5';
+            micButton.title = 'Speech recognition not supported in this browser';
+            micResponse.textContent = 'Speech recognition not supported. Try Chrome or Edge.';
+        }
+
+        // VidyaSetu Chatbot Demo
+        const demoChatInput = document.getElementById('demoChatInput');
+        const sendDemoMessage = document.getElementById('sendDemoMessage');
+        const demoChatMessages = document.getElementById('demoChatMessages');
+
+        function addDemoMessage(message, isUser = false) {
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('message', isUser ? 'user-message' : 'bot-message');
+            msgDiv.textContent = message;
+            demoChatMessages.appendChild(msgDiv);
+            demoChatMessages.scrollTop = demoChatMessages.scrollHeight;
+        }
+
+        sendDemoMessage.addEventListener('click', () => {
+            const message = demoChatInput.value.trim();
+            if (message === '') return;
+
+            addDemoMessage(message, true);
+            demoChatInput.value = '';
+
+            // Simulate chatbot response
+            setTimeout(() => {
+                let response = '';
+                const lowerMessage = message.toLowerCase();
+                
+                if (lowerMessage.includes('course') || lowerMessage.includes('subject')) {
+                    response = 'We offer courses in Mathematics, Science, and Programming!';
+                } else if (lowerMessage.includes('fee') || lowerMessage.includes('price') || lowerMessage.includes('cost')) {
+                    response = 'Our fees start at just ₹999/month for all subjects.';
+                } else if (lowerMessage.includes('time') || lowerMessage.includes('schedule')) {
+                    response = 'Classes are available from 4 PM to 8 PM, Monday to Friday.';
+                } else if (lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
+                    response = 'Hello! Welcome to VidyaSetu. How can I help you today?';
+                } else {
+                    response = 'Thanks for your message. Our team will contact you soon!';
+                }
+                
+                addDemoMessage(response);
+            }, 500);
+        });
+
+        demoChatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendDemoMessage.click();
+        });
+
+        // Code Editor Demo
+        const fixCodeBtn = document.getElementById('fixCodeBtn');
+        const codeInput = document.getElementById('codeInput');
+        const fixedCode = document.getElementById('fixedCode');
+
+        fixCodeBtn.addEventListener('click', () => {
+            const code = codeInput.value;
+            let fixed = '';
+            
+            // Simple "AI" code fixes
+            if (code.includes('console.log')) {
+                fixed = '✓ Code looks good! Adding semicolon: ' + code + ';';
+            } else if (code.includes('function') && !code.includes('{')) {
+                fixed = 'Missing curly braces! Try: function myFunction() { // code }';
+            } else if (code.includes('if') && !code.includes('==') && !code.includes('===')) {
+                fixed = 'Use === for comparison instead of =';
+            } else {
+                fixed = 'AI Suggestion: Add proper error handling and comments for better code.';
+            }
+            
+            fixedCode.textContent = fixed;
+        });
+
+        // Smart Contact Form with Subject Suggestions
+        const messageInput = document.getElementById('message');
+        const subjectInput = document.getElementById('subject');
+        const subjectSuggestion = document.getElementById('subjectSuggestion');
+
+        messageInput.addEventListener('input', () => {
+            const message = messageInput.value.toLowerCase();
+            
+            if (message.includes('project') || message.includes('work')) {
+                subjectSuggestion.style.display = 'block';
+                subjectSuggestion.textContent = '💡 Suggested subject: "Project Inquiry"';
+                subjectInput.value = 'Project Inquiry';
+            } else if (message.includes('job') || message.includes('hire') || message.includes('work together')) {
+                subjectSuggestion.style.display = 'block';
+                subjectSuggestion.textContent = '💡 Suggested subject: "Collaboration Opportunity"';
+                subjectInput.value = 'Collaboration Opportunity';
+            } else if (message.includes('price') || message.includes('cost') || message.includes('fee')) {
+                subjectSuggestion.style.display = 'block';
+                subjectSuggestion.textContent = '💡 Suggested subject: "Service Pricing Inquiry"';
+                subjectInput.value = 'Service Pricing Inquiry';
+            } else {
+                subjectSuggestion.style.display = 'none';
+            }
+        });
+
+        // Contact Form Submission
+        const contactForm = document.getElementById('contactForm');
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you for your message! This is a demo - in production, this would send an email to saurabhjha.dev@gmail.com');
+            contactForm.reset();
+            subjectSuggestion.style.display = 'none';
+        });
+
+        // Smooth Scrolling for Navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Parallax Effect on Hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+
+        // Hover effect on service cards for AI demo preview
+        const serviceCards = document.querySelectorAll('.service-card');
+        serviceCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                const demo = card.querySelector('.ai-demo-preview');
+                if (demo) {
+                    demo.style.display = 'block';
+                }
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                const demo = card.querySelector('.ai-demo-preview');
+                if (demo) {
+                    demo.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
