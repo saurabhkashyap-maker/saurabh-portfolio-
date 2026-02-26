@@ -832,7 +832,8 @@ contactForm.addEventListener('submit', function(e) {
     const formData = new FormData(contactForm);
     
     // Send to FormSubmit
-    fetch('https://formsubmit.co/ajax/saurabhjha.dev@gmail.com', {
+   // Send to FormSubmit
+fetch('https://formsubmit.co/ajax/saurabhhkashyap302@gmail.com',{
         method: 'POST',
         body: formData
     })
